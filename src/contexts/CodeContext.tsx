@@ -34,14 +34,21 @@ const boilerplateTemplates: CodeState = {
 import './useState.css';
 
 const Example = () => {
-  // Add your state here
-  
+  const [count, setCount] = useState(0);
+
+  const handleClick = () => {
+    setCount(count + 1);
+  };
+
   return (
-    <div className="useStateButton">
-      {/* Add your code here */}
-    </div>
+    <button 
+      className="useStateButton"
+      onClick={handleClick}
+    >
+      Clicked {count} times
+    </button>
   );
-}
+};
 
 export default Example;`,
     css: `.useStateButton {
@@ -320,8 +327,8 @@ export const CodeProvider: React.FC<{ children: React.ReactNode }> = ({
     setCode((prevCode) => ({
       ...prevCode,
       [activeHook]: {
-        ...boilerplateTemplates[activeHook]
-      }
+        ...boilerplateTemplates[activeHook],
+      },
     }));
   };
 
@@ -334,7 +341,7 @@ export const CodeProvider: React.FC<{ children: React.ReactNode }> = ({
         setActiveHook,
         setActiveFile,
         updateCode,
-        resetToBoilerplate
+        resetToBoilerplate,
       }}
     >
       {children}
