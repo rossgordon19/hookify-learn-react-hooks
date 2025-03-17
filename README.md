@@ -19,9 +19,6 @@ I created this project to refresh my React knowledge and deepen my understanding
 ## Development
 
 I built this project as a personal learning exercise. While I used Cursor to help set up the initial UI, code editor, and preview functionality, I wrote all the actual implementation, logic, and hook examples myself as part of my React refresher journey.
-
-The interface provides a responsive design that works on both desktop and mobile devices.
-
 ```
 npm install
 npm run dev

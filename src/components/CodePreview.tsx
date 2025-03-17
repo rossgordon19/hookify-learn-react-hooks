@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useCodeContext } from '../contexts/CodeContext';
 import * as ReactModule from 'react';
 import * as Babel from '@babel/standalone';
+import CodeBlock from './CodeBlock';
 
 class ErrorBoundary extends React.Component<
   { children: React.ReactNode },
@@ -39,7 +40,7 @@ const CodePreview: React.FC = () => {
       setError(null);
       
       // Remove import statements and extract the component code
-      const codeWithoutImports = code[activeHook].js.replace(/import.*?;(\r?\n|\r)/g, '');
+      const codeWithoutImports = code[activeHook].jsx.replace(/import.*?;(\r?\n|\r)/g, '');
       
       // Remove export default statement but keep the component name
       const codeWithoutExports = codeWithoutImports.replace(/export\s+default\s+(\w+)/, 'const $1_export = $1');
@@ -146,9 +147,59 @@ const CodePreview: React.FC = () => {
           <div className="text-gray-300 text-sm space-y-3">
             {activeHook === 'useState' && (
               <>
-                <p>
-                  The useState hook lets you add state to functional components. It returns a stateful value and a function to update it.
-                </p>
+                <div className="flex justify-between items-center mb-3">
+                  <p className="text-gray-300 text-sm">
+                    The useState hook lets you add state to functional components. It returns a stateful value and a function to update it.
+                  </p>
+                  <button 
+                    className="bg-gray-700 hover:bg-gray-600 text-gray-200 text-xs px-3 py-1 rounded border border-gray-600 transition-all flex items-center gap-1"
+                    onClick={() => {
+                      const eli5Element = document.getElementById('useState-eli5');
+                      const buttonElement = document.getElementById('eli5-button');
+                      const buttonTextElement = document.getElementById('eli5-button-text');
+                      
+                      if (eli5Element && buttonElement && buttonTextElement) {
+                        const isVisible = eli5Element.style.display !== 'none';
+                        eli5Element.style.display = isVisible ? 'none' : 'block';
+                        buttonTextElement.textContent = isVisible ? 'Explain Like I\'m 5' : 'Show Technical Explanation';
+                      }
+                    }}
+                    id="eli5-button"
+                  >
+                    <span id="eli5-button-text">Explain Like I'm 5</span>
+                  </button>
+                </div>
+                
+                <div 
+                  id="useState-eli5" 
+                  style={{display: 'none'}}
+                  className="bg-gray-800/80 p-4 rounded-md border border-gray-600 my-3 transition-all"
+                >
+                  <h4 className="text-blue-400 font-medium mb-2 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    useState for 5-year-olds
+                  </h4>
+                  <p className="text-gray-300 mb-2">
+                    Imagine you have a toy box. The toy box can only hold one toy at a time.
+                  </p>
+                  <div className="bg-gray-700/50 p-2 rounded border border-gray-600 my-2">
+                    <code className="text-green-300 text-xs">
+                      const [toy, setToy] = useState("teddy bear");
+                    </code>
+                  </div>
+                  <p className="text-gray-300 mb-2">
+                    • <code className="bg-gray-700 px-1 rounded text-green-300">toy</code> is what's in your toy box right now (a teddy bear)
+                  </p>
+                  <p className="text-gray-300 mb-2">
+                    • <code className="bg-gray-700 px-1 rounded text-green-300">setToy</code> is your magic wand that can change what's in the toy box
+                  </p>
+                  <p className="text-gray-300">
+                    When you want a different toy, you use your magic wand: <code className="bg-gray-700 px-1 rounded text-green-300">setToy("dinosaur")</code> and poof! Now there's a dinosaur in your toy box instead of the teddy bear.
+                  </p>
+                </div>
+
                 <div className="bg-gray-800 p-3 rounded border border-gray-700 my-3">
                   <code className="text-green-300 text-xs">
                     const [state, setState] = useState(initialState);
@@ -156,6 +207,46 @@ const CodePreview: React.FC = () => {
                 </div>
                 <p>
                   During re-renders, the first value returned will always be the most updated state value.
+                </p>
+                
+                <CodeBlock code={`function Counter() {
+  const [count, setCount] = useState(0);
+  
+  function increment() {
+    setCount(count + 1);
+  }
+  
+  function incrementTwice() {
+    // ❌ This won't work as expected
+    setCount(count + 1);
+    setCount(count + 1); // Still only increments by 1
+    
+    // ✅ Use function form instead:
+    setCount(c => c + 1);
+    setCount(c => c + 1); // Correctly increments by 2
+  }
+  
+  return (
+    <button onClick={increment}>
+      Count: {count}
+    </button>
+  );
+}`} language="jsx" />
+
+                <p className="mt-3 text-sm text-gray-400">
+                  Note: When you call <code className="bg-gray-700 px-1 rounded text-green-300">setCount(count + 1)</code> twice in a row, 
+                  React batches the updates and only increments once because both updates reference the same original <code className="bg-gray-700 px-1 rounded text-green-300">count</code> value.
+                </p>
+                
+                <p className="mt-3">
+                  <a 
+                    href="https://react.dev/reference/react/useState" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-400 hover:text-blue-300 underline"
+                  >
+                    Read more about useState in the React documentation →
+                  </a>
                 </p>
               </>
             )}

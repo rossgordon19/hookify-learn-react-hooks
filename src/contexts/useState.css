@@ -1,0 +1,22 @@
+.useStateButton {
+  background-color: #007bff;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.useStateButton:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.useStateButton:active {
+  background-color: #003f80;
+  transform: scale(0.98);
+}
