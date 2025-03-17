@@ -67,23 +67,44 @@ export default Example;`,
 import './useEffect.css';
 
 const Example = () => {
-  const [data, setData] = useState(null);
-  
-  // Add your effect here
-  
+  const [count, setCount] = useState(0);
+  const [bgColor, setBgColor] = useState('white');
+
+  const handleClick = () => {
+    setCount(count + 1);
+  };
+
+  useEffect(() => {
+    const colors = ['#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33A6'];
+    setBgColor(colors[count % colors.length]);
+  }, [count]);
+
   return (
-    <div className="useEffectContainer">
-      {/* Add your code here */}
-    </div>
+    <button
+      className="useEffectButton"
+      style={{ backgroundColor: bgColor }}
+      onClick={handleClick}
+    >
+      Clicked {count} times
+    </button>
   );
+
 }
 
 export default Example;`,
-    css: `.useEffectContainer {
-  padding: 20px;
+    css: `.useEffectButton {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px 20px;
+  border: none;
   border-radius: 8px;
-  background-color: #f8f9fa;
-  color: #333;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.useEffectButton:hover {
+  transform: scale(1.05);
 }`,
   },
   useContext: {
@@ -275,8 +296,49 @@ export default Example;`,
 }`,
   },
   useEffect: {
-    jsx: `/* Add your code here */`,
-    css: ``,
+    jsx: `import { useState, useEffect } from 'react';
+import './useEffect.css';
+
+const Example = () => {
+  const [count, setCount] = useState(0);
+  const [bgColor, setBgColor] = useState('white');
+
+  const handleClick = () => {
+    setCount(count + 1);
+  };
+
+  useEffect(() => {
+    const colors = ['#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33A6'];
+    setBgColor(colors[count % colors.length]);
+  }, [count]);
+
+  return (
+    <button
+      className="useEffectButton"
+      style={{ backgroundColor: bgColor }}
+      onClick={handleClick}
+    >
+      Clicked {count} times
+    </button>
+  );
+
+}
+
+export default Example;`,
+    css: `.useEffectButton {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.useEffectButton:hover {
+  transform: scale(1.05);
+}`,
   },
   useContext: {
     jsx: `/* Add your code here */`,
