@@ -4,7 +4,7 @@ A modern, interactive dashboard for learning and practicing React Hooks.
 
 ## Purpose
 
-I created this project to refresh my React knowledge and deepen my understanding of React Hooks. Hookify provides a sandboxed environment to experiment with various hooks, allowing me (and others) to write and instantly preview code examples. Each hook has its own dedicated JavaScript and CSS editor, making it easy to focus on one concept at a time.
+I created this project to refresh my React knowledge and deepen my understanding of React Hooks. After working in Angular for over a year, I am beginning to jump back into React in my free time. Hookify provides a sandboxed environment to experiment with various hooks, allowing users to write and instantly preview code examples. Each hook has its own dedicated JavaScript and CSS editor, making it easy to focus on one concept at a time.
 
 ## Tech Stack
 
