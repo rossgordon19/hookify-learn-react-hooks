@@ -132,15 +132,15 @@ const Dashboard: React.FC = () => {
 
       <footer className='border-t border-gray-800 py-2 sm:py-3 px-4 sm:px-6 text-center text-gray-500 text-xs'>
         <p>
-          © 2025 Hookify. All rights reserved.{" "}
-          <a
-            href='https://buymeacoffee.com/buildnestie'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='text-gray-400 hover:text-gray-300 transition-colors'
-          >
-            Buy Me a Coffee
-          </a>
+            © 2025 Hookify. All rights reserved. Buy Me a Coffee
+        </p>
+
+        <p>
+            © 2025 Hookify. All rights reserved. <a href="https://buymeacoffee.com/buildnestie" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-300 transition-colors">Buy Me a Coffee</a>
+        </p>
+
+        <p>
+            © 2025 Hookify. All rights reserved. <a href="https://buymeacoffee.com/buildnestie" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-300 transition-colors">Buy Me a Coffee</a>
         </p>
       </footer>
     </div>

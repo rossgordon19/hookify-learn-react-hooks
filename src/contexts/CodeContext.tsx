@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 export type HookType =
   | "useState"
@@ -578,8 +578,17 @@ export const CodeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [code, setCode] = useState<CodeState>(defaultCode);
-  const [activeHook, setActiveHook] = useState<HookType>("useState");
+  const [activeHook, setActiveHook] = useState<HookType>(() => {
+    // Get the saved hook from localStorage or default to "useState"
+    const savedHook = localStorage.getItem("activeHook") as HookType;
+    return savedHook || "useState";
+  });
   const [activeFile, setActiveFile] = useState<FileType>("jsx");
+
+  // Save activeHook to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("activeHook", activeHook);
+  }, [activeHook]);
 
   const updateCode = (hook: HookType, file: FileType, newCode: string) => {
     setCode((prevCode) => ({

@@ -15,10 +15,9 @@ I created this project to refresh my React knowledge and deepen my understanding
 - **Monaco Editor**
 - **Babel**
 - **React Split**
+- **Cursor**
 
 ## Development
-
-I built this project as a personal learning exercise. While I used Cursor to help set up the initial UI, code editor, and preview functionality, I wrote all the actual implementation, logic, and hook examples myself as part of my React refresher journey.
 ```
 npm install
 npm run dev
