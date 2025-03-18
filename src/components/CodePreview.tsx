@@ -38,6 +38,9 @@ const CodePreview: React.FC = () => {
     null
   );
   const [error, setError] = useState<string | null>(null);
+  const [showUseStateEli5, setShowUseStateEli5] = useState(false);
+  const [showUseEffectEli5, setShowUseEffectEli5] = useState(false);
+  const [showUseContextEli5, setShowUseContextEli5] = useState(false);
 
   useEffect(() => {
     try {
@@ -60,34 +63,38 @@ const CodePreview: React.FC = () => {
 
       // Create a function from the transformed code
       const executeCode = new Function(
-        "React",
-        "useState",
-        "useEffect",
-        "useContext",
-        "createContext",
-        "useReducer",
-        "useRef",
-        "useMemo",
-        "useCallback",
-        "useTransition",
-        "useDeferredValue",
+        'React', 
+        'useState', 
+        'useEffect', 
+        'useContext', 
+        'createContext',
+        'useReducer', 
+        'useRef', 
+        'useMemo', 
+        'useCallback', 
+        'useTransition', 
+        'useDeferredValue',
+        'activeHook',
         `${transformedCode}
-        return typeof Example === 'function' ? React.createElement(Example) : null;`
+        return activeHook === 'useContext' ? 
+          (typeof App === 'function' ? React.createElement(App) : null) :
+          (typeof Example === 'function' ? React.createElement(Example) : null);`
       );
-
+      
       // Execute the code with React and hooks provided
       const result = executeCode(
-        ReactModule,
-        ReactModule.useState,
-        ReactModule.useEffect,
+        ReactModule, 
+        ReactModule.useState, 
+        ReactModule.useEffect, 
         ReactModule.useContext,
         ReactModule.createContext,
-        ReactModule.useReducer,
-        ReactModule.useRef,
-        ReactModule.useMemo,
-        ReactModule.useCallback,
-        ReactModule.useTransition,
-        ReactModule.useDeferredValue
+        ReactModule.useReducer, 
+        ReactModule.useRef, 
+        ReactModule.useMemo, 
+        ReactModule.useCallback, 
+        ReactModule.useTransition, 
+        ReactModule.useDeferredValue,
+        activeHook
       );
 
       setRenderedOutput(result);
@@ -97,6 +104,17 @@ const CodePreview: React.FC = () => {
       setRenderedOutput(null);
     }
   }, [code, activeHook]);
+
+  useEffect(() => {
+    // Reset ELI5 states when switching hooks
+    setShowUseStateEli5(false);
+    setShowUseEffectEli5(false);
+    setShowUseContextEli5(false);
+  }, [activeHook]);
+
+  useEffect(() => {
+    console.log("showUseContextEli5 changed:", showUseContextEli5);
+  }, [showUseContextEli5]);
 
   return (
     <div className='w-full h-full flex flex-col gap-4'>
@@ -158,41 +176,44 @@ const CodePreview: React.FC = () => {
           {activeHook === "useState" && (
             <button
               className='bg-gray-700 hover:bg-gray-600 text-gray-200 text-xs px-3 py-1 rounded border border-gray-600 transition-all flex items-center gap-1'
-              onClick={(e) => {
-                const eli5Element = document.getElementById("useState-eli5");
-                const buttonTextElement = e.currentTarget.querySelector('span');
-
-                if (eli5Element && buttonTextElement) {
-                  const isVisible = eli5Element.style.display !== "none";
-                  eli5Element.style.display = isVisible ? "none" : "block";
-                  buttonTextElement.textContent = isVisible
-                    ? "Explain Like I'm 5"
-                    : "Show Technical Explanation";
-                }
-              }}
+              onClick={() => setShowUseStateEli5(!showUseStateEli5)}
               id='useState-eli5-button'
             >
-              <span>Explain Like I'm 5</span>
+              <span>{showUseStateEli5 ? "Show Technical Explanation" : "Explain Like I'm 5"}</span>
             </button>
           )}
           {activeHook === "useEffect" && (
             <button
               className='bg-gray-700 hover:bg-gray-600 text-gray-200 text-xs px-3 py-1 rounded border border-gray-600 transition-all flex items-center gap-1'
-              onClick={(e) => {
-                const eli5Element = document.getElementById("useEffect-eli5");
-                const buttonTextElement = e.currentTarget.querySelector('span');
-
-                if (eli5Element && buttonTextElement) {
-                  const isVisible = eli5Element.style.display !== "none";
-                  eli5Element.style.display = isVisible ? "none" : "block";
-                  buttonTextElement.textContent = isVisible
-                    ? "Explain Like I'm 5"
-                    : "Show Technical Explanation";
-                }
-              }}
+              onClick={() => setShowUseEffectEli5(!showUseEffectEli5)}
               id='useEffect-eli5-button'
             >
-              <span>Explain Like I'm 5</span>
+              <span>{showUseEffectEli5 ? "Show Technical Explanation" : "Explain Like I'm 5"}</span>
+            </button>
+          )}
+          {activeHook === "useContext" && (
+            <button
+              className='bg-gray-700 hover:bg-gray-600 text-gray-200 text-xs px-3 py-1 rounded border border-gray-600 transition-all flex items-center gap-1'
+              onClick={() => {
+                try {
+                  console.log("useContext button clicked");
+                  console.log("Current showUseContextEli5:", showUseContextEli5);
+                  setShowUseContextEli5(!showUseContextEli5);
+                  console.log("New showUseContextEli5:", !showUseContextEli5);
+                  
+                  // Force a DOM update after a short delay
+                  setTimeout(() => {
+                    const eli5Element = document.getElementById("useContext-eli5");
+                    console.log("useContext-eli5 element:", eli5Element);
+                    console.log("useContext-eli5 display style:", eli5Element?.style.display);
+                  }, 100);
+                } catch (error) {
+                  console.error("Error in useContext button click handler:", error);
+                }
+              }}
+              id='useContext-eli5-button'
+            >
+              <span>{showUseContextEli5 ? "Show Technical Explanation" : "Explain Like I'm 5"}</span>
             </button>
           )}
         </h2>
@@ -222,7 +243,7 @@ const CodePreview: React.FC = () => {
 
                 <div
                   id='useState-eli5'
-                  style={{ display: "none" }}
+                  style={{ display: showUseStateEli5 ? 'block' : 'none' }}
                   className='bg-gray-800/80 p-4 rounded-md border border-gray-600 my-3 transition-all'
                 >
                   <h4 className='text-blue-400 font-medium mb-2 flex items-center gap-2'>
@@ -348,7 +369,7 @@ const CodePreview: React.FC = () => {
 
                 <div
                   id='useEffect-eli5'
-                  style={{ display: "none" }}
+                  style={{ display: showUseEffectEli5 ? 'block' : 'none' }}
                   className='bg-gray-800/80 p-4 rounded-md border border-gray-600 my-3 transition-all'
                 >
                   <h4 className='text-blue-400 font-medium mb-2 flex items-center gap-2'>
@@ -487,14 +508,80 @@ const CodePreview: React.FC = () => {
                   The useContext hook accepts a context object and returns the
                   current context value for that context.
                 </p>
-                <div className='bg-gray-800 p-3 rounded border border-gray-700 my-3'>
-                  <code className='text-green-300 text-xs'>
-                    const value = useContext(MyContext);
-                  </code>
+
+                <div 
+                  id="useContext-eli5" 
+                  style={{
+                    display: showUseContextEli5 ? 'block' : 'none',
+                    border: showUseContextEli5 ? '2px solid red' : '1px solid rgba(75, 85, 99, 0.6)'
+                  }}
+                  className="bg-gray-800/80 p-4 rounded-md my-3 transition-all"
+                >
+                  <h4 className="text-blue-400 font-medium mb-2 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    useContext for 5-year-olds
+                  </h4>
+                  <p className="text-gray-300 mb-2">
+                    Imagine your family has a rule book that everyone follows.
+                  </p>
+                  <div className="bg-gray-700/50 p-2 rounded border border-gray-600 my-2">
+                    <CodeBlock code={`// The family rule book
+const RuleBook = createContext('bedtime: 8pm');
+
+// Any family member can check the rules
+const rule = useContext(RuleBook);`} language="jsx" />
+                  </div>
+                  <p className="text-gray-300 mb-2">
+                    • The rule book (context) can be created by parents and shared with everyone
+                  </p>
+                  <p className="text-gray-300 mb-2">
+                    • Any family member (component) can check the rules without having to ask their parents or siblings
+                  </p>
+                  <p className="text-gray-300">
+                    • If parents change the rules, everyone immediately knows without having to be told individually
+                  </p>
+                </div>
+                
+                <div className="bg-gray-800 p-3 rounded border border-gray-700 my-3">
+                  <CodeBlock code={`const value = useContext(MyContext);`} language="jsx" />
                 </div>
                 <p>
-                  When the provider updates, this hook will trigger a rerender
-                  with the latest context value.
+                  When the provider updates, this hook will trigger a rerender with the latest context value.
+                </p>
+                
+                <CodeBlock code={`// 1. Create a context with a default value
+const ThemeContext = createContext('light');
+
+// 2. Create a component that uses the context
+function ThemedButton() {
+  const theme = useContext(ThemeContext);
+  return <button className={theme}>Themed Button</button>;
+}
+
+// 3. Wrap your component tree with a Provider to specify the value
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <ThemedButton /> {/* Will receive "dark" as the theme */}
+    </ThemeContext.Provider>
+  );
+}`} language="jsx" />
+
+                <p className="mt-3 text-sm text-gray-400">
+                  Context is primarily used when some data needs to be accessible by many components at different nesting levels, without passing props down manually at each level.
+                </p>
+                
+                <p className="mt-3">
+                  <a 
+                    href="https://react.dev/reference/react/useContext" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-400 hover:text-blue-300 underline"
+                  >
+                    Read more about useContext in the React documentation →
+                  </a>
                 </p>
               </>
             )}

@@ -108,27 +108,120 @@ export default Example;`,
 }`,
   },
   useContext: {
-    jsx: `import { useContext } from 'react';
+    jsx: `import { createContext, useContext, useState } from 'react';
 import './useContext.css';
 
-// Create your context here
+// 1️⃣ Create the Context
+const ThemeContext = createContext({ 
+  theme: 'light', 
+  toggleTheme: () => {} 
+});
 
-const Example = () => {
-  // Use your context here
+const ThemeButton = () => {
+  const { theme, toggleTheme } = useContext(ThemeContext);
   
   return (
-    <div className="useContextContainer">
-      {/* Add your code here */}
+    <button 
+      className="theme-toggle"
+      onClick={toggleTheme}
+    >
+      Switch to {theme === 'dark' ? 'light' : 'dark'} mode
+    </button>
+  );
+};
+
+const ThemedContent = () => {
+  const { theme } = useContext(ThemeContext);
+  
+  return (
+    <div className="content">
+      <h2>Current Theme: {theme}</h2>
+      <p>This content responds to the theme context.</p>
     </div>
   );
+};
+
+const Example = () => {
+  // 3️⃣ Consume the Context
+  const { theme } = useContext(ThemeContext);
+
+  return (
+    <div className={"themed-card " + theme}>
+      <ThemedContent />
+      <ThemeButton />
+    </div>
+  );
+};
+
+// 2️⃣ Provide the Context Value
+const App = () => {
+  const [theme, setTheme] = useState('dark');
+  
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <Example />
+    </ThemeContext.Provider>
+  );
+};
+
+export default App;`,
+    css: `.themed-card {
+  padding: 20px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  text-align: center;
 }
 
-export default Example;`,
-    css: `.useContextContainer {
-  padding: 20px;
-  border-radius: 8px;
-  background-color: #e9ecef;
+.light {
+  background-color: #f8f9fa;
   color: #333;
+}
+
+.dark {
+  background-color: #333;
+  color: white;
+}
+
+.content {
+  margin-bottom: 20px;
+}
+
+.content h2 {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.theme-toggle {
+  background-color: transparent;
+  border: 2px solid currentColor;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.light .theme-toggle {
+  color: #007bff;
+}
+
+.light .theme-toggle:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.dark .theme-toggle {
+  color: #6ea8fe;
+}
+
+.dark .theme-toggle:hover {
+  background-color: rgba(110, 168, 254, 0.1);
 }`,
   },
   useReducer: {
@@ -341,8 +434,121 @@ export default Example;`,
 }`,
   },
   useContext: {
-    jsx: `/* Add your code here */`,
-    css: ``,
+    jsx: `import { createContext, useContext, useState } from 'react';
+import './useContext.css';
+
+// 1️⃣ Create the Context
+const ThemeContext = createContext({ 
+  theme: 'light', 
+  toggleTheme: () => {} 
+});
+
+const ThemeButton = () => {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  
+  return (
+    <button 
+      className="theme-toggle"
+      onClick={toggleTheme}
+    >
+      Switch to {theme === 'dark' ? 'light' : 'dark'} mode
+    </button>
+  );
+};
+
+const ThemedContent = () => {
+  const { theme } = useContext(ThemeContext);
+  
+  return (
+    <div className="content">
+      <h2>Current Theme: {theme}</h2>
+      <p>This content responds to the theme context.</p>
+    </div>
+  );
+};
+
+const Example = () => {
+  // 3️⃣ Consume the Context
+  const { theme } = useContext(ThemeContext);
+
+  return (
+    <div className={"themed-card " + theme}>
+      <ThemedContent />
+      <ThemeButton />
+    </div>
+  );
+};
+
+// 2️⃣ Provide the Context Value
+const App = () => {
+  const [theme, setTheme] = useState('dark');
+  
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <Example />
+    </ThemeContext.Provider>
+  );
+};
+
+export default App;`,
+    css: `.themed-card {
+  padding: 20px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.light {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.dark {
+  background-color: #333;
+  color: white;
+}
+
+.content {
+  margin-bottom: 20px;
+}
+
+.content h2 {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.theme-toggle {
+  background-color: transparent;
+  border: 2px solid currentColor;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.light .theme-toggle {
+  color: #007bff;
+}
+
+.light .theme-toggle:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.dark .theme-toggle {
+  color: #6ea8fe;
+}
+
+.dark .theme-toggle:hover {
+  background-color: rgba(110, 168, 254, 0.1);
+}`,
   },
   useReducer: {
     jsx: `/* Add your code here */`,
