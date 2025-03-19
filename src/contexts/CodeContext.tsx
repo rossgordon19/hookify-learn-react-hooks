@@ -271,21 +271,49 @@ export default Example;`,
 import './useRef.css';
 
 const Example = () => {
-  // Add your ref here
-  
+  const inputRef = useRef(null);
+
+  const handleClick = () => {
+    inputRef.current.focus();
+  };
+
   return (
     <div className="useRefContainer">
-      {/* Add your code here */}
+      <input ref={inputRef} className="useRefInput" type="text" placeholder="Type something..." />
+      <button className="useRefButton" onClick={handleClick}>Focus Input</button>
     </div>
   );
-}
+};
 
 export default Example;`,
     css: `.useRefContainer {
-  padding: 20px;
-  border-radius: 8px;
-  background-color: #ced4da;
-  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.useRefInput {
+  font-size: 16px;
+  padding: 10px;
+  border: 2px solid #007bff;
+  border-radius: 5px;
+  width: 200px;
+}
+
+.useRefButton {
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.useRefButton:hover {
+  background-color: #0056b3;
 }`,
   },
   useMemoCallback: {
@@ -534,54 +562,57 @@ export default Example;`,
     }`,
   },
   useRef: {
-    jsx: `import { useRef, useState } from 'react';
+    jsx: `import { useRef } from 'react';
 import './useRef.css';
 
 const Example = () => {
   // TODO: Create a ref for the input element
   // Hint: const inputRef = useRef(null);
   
-  // TODO: Create state for messages
-  
-  // TODO: Create a function to handle focus and add messages
+  // TODO: Create a function to focus the input when button is clicked
+  // Hint: Use inputRef.current.focus();
   
   return (
-    <div className="refContainer">
-      {/* TODO: Display messages */}
+    <div className="useRefContainer">
+      {/* TODO: Add an input element and attach the ref to it */}
+      {/* Hint: <input ref={inputRef} className="useRefInput" ... /> */}
       
-      {/* TODO: Create input and attach ref */}
-      {/* Hint: <input ref={inputRef} /> */}
-      
-      {/* TODO: Add buttons to focus input and add messages */}
+      {/* TODO: Add a button that calls your focus function when clicked */}
+      {/* Hint: <button onClick={handleClick}>Focus Input</button> */}
     </div>
   );
 };
 
 export default Example;`,
-    css: `.refContainer {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 20px;
-      background-color: #f8f9fa;
-      border-radius: 8px;
-    }
+    css: `.useRefContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
 
-    input {
-      padding: 8px;
-      border: 1px solid #ced4da;
-      border-radius: 4px;
-    }
+.useRefInput {
+  font-size: 16px;
+  padding: 10px;
+  border: 2px solid #007bff;
+  border-radius: 5px;
+  width: 200px;
+}
 
-    button {
-      background-color: #007bff;
-      color: white;
-      font-size: 14px;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }`,
+.useRefButton {
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.useRefButton:hover {
+  background-color: #0056b3;
+}`,
   },
   useMemoCallback: {
     jsx: `import { useState, useMemo, useCallback } from 'react';
@@ -1017,21 +1048,49 @@ const defaultCode: CodeState = {
     import './useRef.css';
 
     const Example = () => {
-      // Add your ref here
-      
+      const inputRef = useRef(null);
+
+      const handleClick = () => {
+        inputRef.current.focus();
+      };
+
       return (
         <div className="useRefContainer">
-          {/* Add your code here */}
+          <input ref={inputRef} className="useRefInput" type="text" placeholder="Type something..." />
+          <button className="useRefButton" onClick={handleClick}>Focus Input</button>
         </div>
       );
-    }
+    };
 
     export default Example;`,
     css: `.useRefContainer {
-      padding: 20px;
-      border-radius: 8px;
-      background-color: #ced4da;
-      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .useRefInput {
+      font-size: 16px;
+      padding: 10px;
+      border: 2px solid #007bff;
+      border-radius: 5px;
+      width: 200px;
+    }
+
+    .useRefButton {
+      background-color: #007bff;
+      color: white;
+      font-size: 16px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .useRefButton:hover {
+      background-color: #0056b3;
     }`,
   },
   useMemoCallback: {

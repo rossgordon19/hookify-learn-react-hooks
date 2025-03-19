@@ -42,6 +42,7 @@ const CodePreview: React.FC = () => {
   const [showUseEffectEli5, setShowUseEffectEli5] = useState(false);
   const [showUseContextEli5, setShowUseContextEli5] = useState(false);
   const [showUseReducerEli5, setShowUseReducerEli5] = useState(false);
+  const [showUseRefEli5, setShowUseRefEli5] = useState(false);
 
   useEffect(() => {
     try {
@@ -112,6 +113,7 @@ const CodePreview: React.FC = () => {
     setShowUseEffectEli5(false);
     setShowUseContextEli5(false);
     setShowUseReducerEli5(false);
+    setShowUseRefEli5(false);
   }, [activeHook]);
 
   return (
@@ -205,6 +207,15 @@ const CodePreview: React.FC = () => {
               id='useReducer-eli5-button'
             >
               <span>{showUseReducerEli5 ? "Show Technical Explanation" : "Explain Like I'm 5"}</span>
+            </button>
+          )}
+          {activeHook === "useRef" && (
+            <button
+              className='bg-gray-700 hover:bg-gray-600 text-gray-200 text-xs px-3 py-1 rounded border border-gray-600 transition-all flex items-center gap-1'
+              onClick={() => setShowUseRefEli5(!showUseRefEli5)}
+              id='useRef-eli5-button'
+            >
+              <span>{showUseRefEli5 ? "Show Technical Explanation" : "Explain Like I'm 5"}</span>
             </button>
           )}
         </h2>
@@ -613,6 +624,59 @@ dispatch({ type: 'decrement' });`}
                 <p>
                   The returned object will persist for the full lifetime of the
                   component and doesn't cause re-renders when its value changes.
+                </p>
+
+                <div 
+                  id="useRef-eli5" 
+                  style={{ display: showUseRefEli5 ? 'block' : 'none' }}
+                  className="bg-gray-800/80 p-4 rounded-md border border-gray-600 my-3 transition-all"
+                >
+                  <h4 className="text-blue-400 font-medium mb-2 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    useRef for 5-year-olds
+                  </h4>
+                  <p className="text-gray-300 mb-2">
+                    Imagine you have a special sticker you can put on any toy. This sticker helps you find and control your toy later.
+                  </p>
+                  <div className="bg-gray-700/50 p-2 rounded border border-gray-600 my-2">
+                    <code className='text-green-300 text-xs'>
+                      {`const toySticker = useRef(null);
+                      
+// Later: put the sticker on a toy
+<input ref={toySticker} />
+                      
+// Now you can find and control your toy!
+toySticker.current.focus();`}
+                    </code>
+                  </div>
+                  <p className="text-gray-300 mt-2">
+                    With useRef:
+                  </p>
+                  <p className="text-gray-300">
+                    • The sticker (ref) lets you find your toy (HTML element) anytime
+                  </p>
+                  <p className="text-gray-300">
+                    • You can make the toy do things (like focus, play, change color)
+                  </p>
+                  <p className="text-gray-300">
+                    • Changing what's on the sticker doesn't cause the page to reload (no re-renders)
+                  </p>
+                  <p className="text-gray-300">
+                    • The sticker stays with your toy even when other things change
+                  </p>
+                </div>
+
+                <p className="mt-3">
+                  <a 
+                    href="https://react.dev/reference/react/useRef" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-400 hover:text-blue-300 underline"
+                  >
+                    Read more about useRef in the React documentation →
+                  </a>
                 </p>
               </>
             )}
